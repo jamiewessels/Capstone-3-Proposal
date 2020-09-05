@@ -17,11 +17,11 @@ Many of the images would be of my hand or my husband’s hand.  We are asking fr
 
 #### Example of an Image: 
 <p align="left">
-    <img src="data/C/20200905_134447.JPG" width='150'/>
+    <img src="data/C/20200905_134447.jpg" width='150'/>
 </p>
 
 <p align="left">
-    <img src="data/C/20200905_140824.JPG" width='150'/>
+    <img src="data/C/20200905_140824.jpg" width='150'/>
 </p>
 
 <p align="left">
@@ -32,7 +32,7 @@ Many of the images would be of my hand or my husband’s hand.  We are asking fr
 </p>
 
 <p align="left">
-    <img src="data/C/20200905_141116.JPG" width='150'/>
+    <img src="data/C/20200905_141116.jpg" width='150'/>
 </p>
 
 
