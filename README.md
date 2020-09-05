@@ -2,8 +2,9 @@
 
 
 
-## A-CHORD-ing 2 the Image: 
-#### Goal: Image classifier that can identify the chord. Images will be of a hand playing a chord on a piano.
+## 1. A-CHORD-ing 2 the Image: 
+#### Goal: 
+Create an image classifier that can identify chords (piano). Images will be of a hand playing a chord on a piano.
 
 I am going to start with just 3 chords: C, F, G and no inversions (meaning base note is always the key - fingers always on the 1-3-5).  A lot of songs can be played with just these 3 chords - that is why I chose them
 
@@ -17,7 +18,7 @@ Most of the images would be of my hand or my husband’s hand.  We are asking fr
 
 
 
-## Ro-bob Dylan (Text - Generator)
+## 2. Ro-bob Dylan (Text - Generator)
 #### Goal: 
 The goal of this project would be to use NLP+RNN to use the complete collection of Bob Dylan’s lyrics in order to create a text completion bot that would create poetry lines.
 
