@@ -10,10 +10,8 @@ I am going to start with just 3 chords: C, F, G and no inversions (meaning base 
 
 
 #### Background: 
-While there are many chord identifiers based on audio input, I have not identified chord identifiers based on image.  I think this could have an impact during this time of virtual learning and could also aid deaf people in learning to play the piano.  This would be a precursor to transcribing a song based on a video of someone playing.
+While there are many chord identifiers based on audio input, I have not found many chord identifiers based on image.  I think this could have an impact during this time of virtual learning and could also aid deaf people learn to play the piano.  This would be a precursor to transcribing a song based on a video of someone playing.
 
-#### Concerns: 
-Many of the images would be of my hand or my husband’s hand.  We are asking friends who have access to a piano to also send images to add to the collection. It’s quick to take the different images, so I am shooting for 300 images per class (right now I have about 200 per class).  I would then use an augmenter to make more images and add variability.  I am concerned about bias if most of the hands are mine or my husbands (we are both white). So far pictures are from 4 different keyboards and 5 different people.  Continuing to collect images.
 
 #### Example of an Image: 
 <p align="left">
@@ -35,6 +33,8 @@ Many of the images would be of my hand or my husband’s hand.  We are asking fr
     <img src="data/C/20200905_141116.jpg" width='150'/>
 </p>
 
+#### Concerns: 
+Many of the images would be of my hand or my husband’s hand.  We are asking friends who have access to a piano to also send images to add to the collection. It’s quick to take the different images, so I am shooting for 300 images per class (right now I have about 200 per class).  I would then use an augmenter to make more images and add variability.  I am concerned about bias if most of the hands are mine or my husbands (we are both white). So far pictures are from 4 different keyboards and 5 different people.  Continuing to collect images.
 
 
 ## 2. Ro-bob Dylan (Text - Generator)
@@ -59,7 +59,7 @@ Use image classification to identify melanoma skin lesions as benign or malignan
 (using the ISIC melanoma project dataset).  
 
 #### Background: 
-This is important to me because my father passes away from metastatic melanoma and it is one of the most lethal and common cancers.  Early identification of malignant skin lesions is very important.
+This is important to me because my father passed away from metastatic melanoma and it is one of the most lethal and common cancers.  Early identification of malignant skin lesions is very important.
 
 #### Dataset: 
 Large dataset available (20,000 benign, 2,000 malignant)
