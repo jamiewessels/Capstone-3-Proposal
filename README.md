@@ -4,16 +4,15 @@
 
 ## 1. A-CHORD-ing to the Image: 
 #### Goal: 
-Create an image classifier that can identify chords (piano). Images will be of a hand playing a chord on a piano.
+Create an image classifier that can identify 3 chords on the piano. Images will be of a hand playing a chord on a piano. Chords played on left and right hand with different fingerings.
 
-I am going to start with just 3 chords: C, F, G and no inversions (meaning base note is always the key - fingers always on the 1-3-5).  A lot of songs can be played with just these 3 chords - that is why I chose them.  Chords played on left and right hand with different fingerings.
-
+Stretch project: if I am successful with goal above, I'd like to be able to identify chords in real time.  It would be interesting if each chord could trigger a different sound (such as the sound of the chord) or a lighting change.
 
 #### Background: 
 While there are many chord identifiers based on audio input, I have not found many chord identifiers based on image.  I think this could have an impact during this time of virtual learning and could also aid deaf people learn to play the piano.  This would be a precursor to transcribing a song based on a video of someone playing.
 
 
-#### Example of an Image: 
+#### Examples of the Images: 
 <p align="left">
     <img src="data/C/20200905_134447.jpg" width='150'/>
 </p>
@@ -32,42 +31,5 @@ While there are many chord identifiers based on audio input, I have not found ma
 <p align="left">
     <img src="data/C/20200905_141116.jpg" width='150'/>
 </p>
-
-#### Concerns: 
-Many of the images would be of my hand or my husband’s hand.  We are asking friends who have access to a piano to also send images to add to the collection. It’s quick to take the different images, so I am shooting for 300 images per class (right now I have about 200 per class).  I would then use an augmenter to make more images and add variability.  I am concerned about bias if most of the hands are mine or my husbands (we are both white). So far pictures are from 4 different keyboards and 5 different people.  Continuing to collect images.
-
-
-## 2. Ro-bob Dylan (Text - Generator)
-#### Goal: 
-The goal of this project would be to use NLP+RNN to use the complete collection of Bob Dylan’s lyrics in order to create a text completion bot that would create poetry lines.
-
-#### About the Dataset: 
-500 songs, approximately 160 words per song (non-unique).  
-
-#### Concerns: 
-I’m hard-core studying Keras/Tensorflow over the next weekend, but is this too complicated?   
-
-I originally wanted to do a Michael Scott Bot (I LOVE the office and found the script online) but saw that someone already did this. 
-
-
-## Identifying Melanoma from images
-Note: I’m not as excited about this project as the chord classifier, although I think the dataset is more robust.
-
-
-#### Goal: 
-Use image classification to identify melanoma skin lesions as benign or malignant 
-(using the ISIC melanoma project dataset).  
-
-#### Background: 
-This is important to me because my father passed away from metastatic melanoma and it is one of the most lethal and common cancers.  Early identification of malignant skin lesions is very important.
-
-#### Dataset: 
-Large dataset available (20,000 benign, 2,000 malignant)
-Links to images: https://github.com/GalAvineri/ISIC-Archive-Downloader
-https://www.isic-archive.com/#!/topWithHeader/onlyHeaderTop/gallery?filter=%5B%5D
-
-#### Example of an image: 
-
-
 
 
