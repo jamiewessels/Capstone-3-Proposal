@@ -60,7 +60,7 @@ def score_model(model, test_generator, num_test):
 
 if __name__ == '__main__':
 
-        num_train = len([os.path.join(path, name) for path, subdirs, files in os.walk('data/train/augmented_2') for name in files])+1
+        num_train = len([os.path.join(path, name) for path, subdirs, files in os.walk('data/train/') for name in files])+1
         num_valid = len([os.path.join(path, name) for path, subdirs, files in os.walk('data/val') for name in files])+1
         num_test = len([os.path.join(path, name) for path, subdirs, files in os.walk('data/test') for name in files])+1
 
@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
         # make flow objects
         train_generator = train_datagen.flow_from_directory(
-                'data/train/augmented_2',
+                'data/train/',
                 target_size=target_size,
                 batch_size=batch_size,
                 class_mode='categorical')

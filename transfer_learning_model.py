@@ -9,9 +9,11 @@ from tensorflow.keras.optimizers import SGD, Adam
 from tensorflow.keras.models import load_model
 import os
 import os.path
-from sklearn.metrics import recall_score, precision_score, roc_auc_score
+from sklearn.metrics import recall_score, precision_score, roc_auc_score, confusion_matrix
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+
 
 root_dir = os.path.join(os.curdir, 'CovNet_logs')  
 
@@ -51,13 +53,47 @@ def get_tboard_logdir():
 def score_model(model, test_generator, num_test):
         results_dict = model.evaluate(test_generator, steps = num_test//32, return_dict = True)
         ytrue = test_generator.classes
-        probas = best_model.predict(test_generator)
+        probas = model.predict(test_generator)
         yhat = np.argmax(probas, axis = 1)
         results_dict['recall'] = recall_score(ytrue, yhat, average = 'macro')
         results_dict['precision'] = precision_score(ytrue, yhat, average = 'macro')
-        results_dict['roc_auc'] = roc_auc_score(ytrue, yhat)
         return results_dict 
-        
+
+def get_confusion_matrix(model, test_generator):
+        return confusion_matrix(test_generator.classes, np.argmax(model.predict(test_generator), axis = 1))
+
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+
+        import itertools
+        if normalize:
+                cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+                print("Normalized confusion matrix")
+        else:
+                print('Confusion matrix, without normalization')
+
+        print(cm)
+
+        plt.imshow(cm, interpolation='nearest', cmap=cmap)
+        plt.title(title)
+        plt.colorbar()
+        tick_marks = np.arange(len(classes))
+        plt.xticks(tick_marks, classes)
+        plt.yticks(tick_marks, classes)
+
+        fmt = '.2f' if normalize else 'd'
+        thresh = cm.max() / 2.
+        for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+                plt.text(j, i, format(cm[i, j], fmt),
+                        horizontalalignment="center",
+                        color="white" if cm[i, j] > thresh else "black")
+
+        plt.ylabel('True label')
+        plt.xlabel('Predicted label')
+        plt.tight_layout()
+        plt.savefig('images/conf_matrix_3_classes_chk6')        
 
 if __name__ == '__main__':
 
@@ -98,11 +134,11 @@ if __name__ == '__main__':
         model_cp = ModelCheckpoint(monitor='val_loss', save_best_only=True, filepath='./CovNet_logs/Checkpoint1.hdf5')
 
         #Create transfer model
-        
+        '''
         base_model = Xception(weights='imagenet',
                                 include_top=False,
                                 input_shape=(299,299,3))
-        '''
+        
         transfer_model = create_transfer_model(base_model, n_categories=3)
 
         _ = change_trainable_layers(transfer_model, 132)
@@ -177,6 +213,7 @@ if __name__ == '__main__':
                         callbacks=[model_cp5, early_stopping, tensorboard])
 
         '''
+        '''
         transfer_model_6 = load_model('./CovNet_logs/Checkpoint5.hdf5')
 
         model_cp6 = ModelCheckpoint(monitor='val_loss', save_best_only=True, filepath='./CovNet_logs/Checkpoint6.hdf5')
@@ -194,12 +231,55 @@ if __name__ == '__main__':
                         steps_per_epoch=steps_per_epoch, 
                         validation_steps=validation_steps,
                         callbacks=[model_cp6, early_stopping, tensorboard])
+        '''
+        
+        transfer_model_7 = load_model('./CovNet_logs/Checkpoint6.hdf5')
+
+        model_cp7 = ModelCheckpoint(monitor='val_loss', save_best_only=True, filepath='./CovNet_logs/Checkpoint7.hdf5')
+
+        _ = change_trainable_layers(transfer_model_7, 96) 
+
+        print_model_properties(transfer_model_7)
+
+        optimizer = Adam(lr=0.001, beta_1 = 0.9, beta_2 = 0.999)
+        transfer_model_7.compile(optimizer=optimizer, loss=['categorical_crossentropy'], metrics=['accuracy', 'AUC'])
+
+        history = transfer_model_7.fit(x=train_generator, 
+                        validation_data=validation_generator,
+                        epochs=500, 
+                        steps_per_epoch=steps_per_epoch, 
+                        validation_steps=validation_steps,
+                        callbacks=[model_cp7, early_stopping, tensorboard])
+        
+
+        #History of Progress:
+        '''
+        model_1 = load_model('./CovNet_logs/Checkpoint1.hdf5')
+        print('initial model')
+        print(score_model(model_1, test_generator, num_test ))
+
+        model_2 = load_model('./CovNet_logs/Checkpoint2.hdf5')
+        print('2nd model')
+        print(score_model(model_2, test_generator, num_test ))
 
 
+        model_3 = load_model('./CovNet_logs/Checkpoint3.hdf5')
+        print('3rd model')
+        print(score_model(model_3, test_generator, num_test ))
 
-        best_model = load_model('./CovNet_logs/Checkpoint6.hdf5')
+        model_4 = load_model('./CovNet_logs/Checkpoint4.hdf5')
+        print('4th model')
+        print(score_model(model_4, test_generator, num_test ))
 
-        metrics = score_model(best_model, test_generator, num_test)
+        model_5 = load_model('./CovNet_logs/Checkpoint5.hdf5')
+        print('5th model')
+        print(score_model(model_5, test_generator, num_test ))
 
-        for k, v in metrics.items():
-                print(f'{k} : {v}')
+        '''
+        best_model = load_model('./CovNet_logs/Checkpoint7.hdf5')
+        print('best model!!!!!!')
+        print(score_model(best_model, test_generator, num_test))
+
+        cm = get_confusion_matrix(best_model, test_generator)
+        plot_confusion_matrix(cm, ['C', 'G', 'F'], normalize = True)
+
