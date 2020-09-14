@@ -12,8 +12,9 @@ Deep learning has been used to classify chords based on audio input, but there a
 #### Collecting the Data
 With a "little help from my friends", I generated and self-labeled images of three chords: C, F, and G.  The images came from 11 ppl and 8 unique pianos, included both left and right hands and multiple fingerings.  There were approximately XX images generated per person. 
 
-[show a bradybunch picture of all the different hands?]
-
+<p align="center">
+<img src="images/brady_bunch_hands.png" width="600px" >
+</p>
 
 I randomly split the raw images into training, validation, and test sets, and then performed augmentation on the training set using the kera's ImageDataGenerator.  This created 20 additional images per raw training image, by randomly performing transofmrations such as rotation, shearing, zoom, shifts.
 
