@@ -1,8 +1,6 @@
-# Capstone-3-Proposal
+## A-CHORD-ing to the Image
 
 
-
-## 1. A-CHORD-ing to the Image: 
 #### Goal: 
 Create an image classifier that can identify 3 chords on the piano. Images will be of a hand playing a chord on a piano. Chords played on left and right hand with different fingerings.
 
