@@ -18,6 +18,7 @@ With a "little help from my friends", I generated and self-labeled images of thr
 
 I randomly split the raw images into training, validation, and test sets, and then performed augmentation on the training set using the kera's ImageDataGenerator.  This created 20 additional images per raw training image, by randomly performing transofmrations such as rotation, shearing, zoom, shifts.
 
+```
 datagen = ImageDataGenerator(
         rotation_range=20,
         width_shift_range=0.1,
@@ -27,6 +28,22 @@ datagen = ImageDataGenerator(
         zoom_range=0.1,
         horizontal_flip=False,
         fill_mode='constant')
+```
+
+
+### Fitting a Model
+[Here talk about process!! and fix the graph below
+
+maybe a flow chart of what improvements made over time ]
+
+
+<p align="center">
+<img src="images/model_progress.jpeg" width="600px" >
+</p>
+
+
+### Technology Used
+
 
 The data set is biased in the following ways:
 1. Small number of individuals and pianos 
