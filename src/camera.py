@@ -7,10 +7,10 @@ from tensorflow.keras.models import load_model
 
 model = load_model("CovNet_logs/Checkpoint7.hdf5")
 font = cv2.FONT_HERSHEY_SIMPLEX
-org = (50, 50)
-fontScale = 1
-color = (1, 0, 0) 
-thickness = 2
+org = (100, 100)
+fontScale = 4
+color = (1, 1, 0) 
+thickness = 7
 classes = np.array(['C', 'F', 'G'])
 
 cap = cv2.VideoCapture('src/quickvid.mov')
@@ -35,16 +35,15 @@ while(cap.isOpened()):
     # cv2.putText(frame, pred, (50,50) ,font, 1, (40, 40, 0), 2)
 
 
-    cv2.putText(frame, pred, org, font,  
+    cv2.putText(roi, pred, org, font,  
                     fontScale, color, thickness, cv2.LINE_AA) 
 
 
-    cv2.imshow('frame', frame)
+    cv2.imshow('frame', roi)
 
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-
 cap.release()
 cv2.destroyAllWindows()
 
