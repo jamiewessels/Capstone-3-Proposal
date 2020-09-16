@@ -12,40 +12,56 @@ color = (1, 1, 0)
 thickness = 7
 classes = np.array(['C', 'F', 'G'])
 
-cap = cv2.VideoCapture('src/quickvid.mov')
+cap = cv2.VideoCapture('src/quickvid2.MOV')
 frameRate = cap.get(5) #frame rate
+
+
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+fourcc_ = cv2.VideoWriter_fourcc('M','J','P','G')
+out = cv2.VideoWriter('output.avi', fourcc_, 5, (299, 299))
 
 # cap.set(cv2.CAP_PROP_FPS, 5)
 # fps = int(cap.get(5))
 # print("fps:", fps)
+count = 0
+pred = ''
 
 while(cap.isOpened()):
     ret, frame = cap.read()
     if not ret:
         break
-    # gray = cv2.cvtColor(frame, cv2.COLOR_RGB2RGBA)
+
+    #figure out which roi to use depending if needs rotated
+    
     gray = cv2.rotate(frame, cv2.cv2.ROTATE_90_CLOCKWISE)
     roi = cv2.resize(gray, (299, 299))/255
-    # roi = cv2.rotate(roi, cv2.cv2.ROTATE_90_CLOCKWISE)
-    # print(roi[1])
-    # new_img = np.delete(roi, 3 , axis = 2).reshape(-1, 299, 299, 3)
+    
+    # roi = cv2.resize(frame, (299,299))/255
 
-    pred = classes[np.argmax(model.predict(roi.reshape(-1, 299, 299, 3)), axis = 1)][0]
-    # print(pred)
-    # cv2.putText(frame, pred, (50,50) ,font, 1, (40, 40, 0), 2)
+    # pred = classes[np.argmax(model.predict(roi.reshape(-1, 299, 299, 3)), axis = 1)][0]
+    count += 1
+    if count == 2 or count % 15 ==0: #create a lag between predictions
+        pred = classes[np.argmax(model.predict(roi.reshape(-1, 299, 299, 3)), axis = 1)][0]
 
+    # proba = model.predict(roi.reshape(-1, 299, 299, 3))
+    # print(count, proba)
+    # pred = classes[np.argmax(proba, axis = 1)][0]
 
     cv2.putText(roi, pred, org, font,  
                     fontScale, color, thickness, cv2.LINE_AA) 
 
 
+    roi = (roi*255).astype('uint8')
+    out.write(roi)
     cv2.imshow('frame', roi)
+    
 
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
     
 cap.release()
+out.release()
 print('cap released')
 # cv2.destroyAllWindows('frame')
 # print('window destroyed')
