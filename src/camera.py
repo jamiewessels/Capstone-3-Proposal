@@ -3,14 +3,13 @@ import numpy as np
 from tensorflow.keras.models import load_model
 
 
-
+#Define Variables
 model = load_model("CovNet_logs/Checkpoint5c-4.hdf5")
 font = cv2.FONT_HERSHEY_SIMPLEX
 org = (100, 100)
 fontScale = 4
 color = (1, 1, 0) 
 thickness = 7
-
 classes = np.array(['Am', 'C', 'Dm', 'F', 'G'])
 
 cap = cv2.VideoCapture('src/youtweb_cropped.mp4')
@@ -51,13 +50,6 @@ while(cap.isOpened()):
     count += 1
     if count == 2 or count % 15 ==0: #create a lag between predictions
         pred = classes[np.argmax(model.predict(roi.reshape(-1, 299, 299, 3)), axis = 1)][0]
-    '''
-
-    #to display probabilities
-    '''
-    proba = model.predict(roi.reshape(-1, 299, 299, 3))
-    print(count, proba)
-    pred = classes[np.argmax(proba, axis = 1)][0]
     '''
 
     cv2.putText(roi, pred, org, font,  

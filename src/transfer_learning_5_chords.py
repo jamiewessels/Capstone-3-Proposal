@@ -67,7 +67,6 @@ def plot_confusion_matrix(cm, classes,
                           title='Confusion matrix',
                           cmap=plt.cm.Blues):
 
-
         import itertools
         if normalize:
                 cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
@@ -94,7 +93,7 @@ def plot_confusion_matrix(cm, classes,
         plt.ylabel('True label')
         plt.xlabel('Predicted label')
         plt.tight_layout()
-        plt.savefig('images/conf_matrix_5chords_chk3') 
+        plt.savefig('images/conf_matrix_5chords_chkpt4') 
 
 if __name__ == '__main__':
 
@@ -119,7 +118,8 @@ if __name__ == '__main__':
                 'data_5chords/val',
                 target_size=target_size,
                 batch_size=batch_size,
-                class_mode='categorical')
+                class_mode='categorical', 
+                shuffle = False)
 
         test_generator = test_datagen.flow_from_directory(
                 'data_5chords/test',
@@ -164,15 +164,15 @@ if __name__ == '__main__':
         
 
         
-        transfer_model_2 = load_model('./CovNet_logs/Checkpoint5c-2.hdf5')
+        transfer_model_2 = load_model('./CovNet_logs/Checkpoint5c-4.hdf5')
 
-        _ = change_trainable_layers(transfer_model_2, 106) 
+        _ = change_trainable_layers(transfer_model_2, 46) 
 
         print_model_properties(transfer_model_2)
 
-        optimizer = Adam(lr=0.001, beta_1 = 0.9, beta_2 = 0.999)
+        optimizer = Adam(lr=0.0001, beta_1 = 0.9, beta_2 = 0.999)
         transfer_model_2.compile(optimizer=optimizer, loss=['categorical_crossentropy'], metrics=['accuracy', 'AUC'])
-        model_cp2 = ModelCheckpoint(monitor='val_loss', save_best_only=True, filepath='./CovNet_logs/Checkpoint5c-2.hdf5')
+        model_cp2 = ModelCheckpoint(monitor='val_loss', save_best_only=True, filepath='./CovNet_logs/Checkpoint5c-5.hdf5')
 
         history = transfer_model_2.fit(x=train_generator, 
                         validation_data=validation_generator,
@@ -247,12 +247,12 @@ if __name__ == '__main__':
 
         '''
 
-        best_model = load_model('./CovNet_logs/Checkpoint5c-3.hdf5')
+        best_model = load_model('./CovNet_logs/Checkpoint5c-5.hdf5')
 
-        metrics = score_model(best_model, test_generator, num_test)
+        metrics = score_model(best_model, validation_generator, num_test)
 
         print(metrics)
 
 
-        cm = get_confusion_matrix(best_model, test_generator)
-        plot_confusion_matrix(cm, ['C', 'G', 'F', 'Am', 'Dm'], normalize = True)
+        cm = get_confusion_matrix(best_model, validation_generator)
+        plot_confusion_matrix(cm, ['Am', 'C', 'Dm', 'F', 'G'], normalize = True)
