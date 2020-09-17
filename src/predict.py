@@ -6,7 +6,7 @@ from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.image import resize
 
-def preprocess_img(img_filepath):
+def preprocess_img(img):
     loaded = load_img(img_filepath)
     array_img = img_to_array(loaded)
     array_img = resize(array_img,[299,299])
@@ -14,12 +14,12 @@ def preprocess_img(img_filepath):
     return array_img
 
 
-def predict_img(model_filepath, img_filepath, save_name, classes = np.array(['Am', 'C', 'Dm', 'F', 'G'])):
+def predict_img(img, model, save_name=None, classes = np.array(['Am', 'C', 'Dm', 'F', 'G'])):
     model = load_model(model_filepath)
     arr = preprocess_img(img_filepath)/255
     # processed = preprocess_input(arr)
     pred = classes[np.argmax(model.predict(arr.reshape(-1, 299, 299, 3)), axis = 1)][0]
-
+    '''
     fig = plt.gcf()
     fig, ax = plt.subplots()
     ax.imshow(arr)
@@ -32,7 +32,7 @@ def predict_img(model_filepath, img_filepath, save_name, classes = np.array(['Am
          )
     fig.savefig('images/predictions/' + save_name)
     fig.show()
-
+    '''
     return pred
 
 if __name__ == '__main__':

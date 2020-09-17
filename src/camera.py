@@ -16,13 +16,9 @@ cap = cv2.VideoCapture('src/youtweb_cropped.mp4')
 frameRate = cap.get(5) #frame rate
 
 
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
 fourcc_ = cv2.VideoWriter_fourcc('M','J','P','G')
-out = cv2.VideoWriter('output_youtube1.avi', fourcc_, 5, (299, 299))
+out = cv2.VideoWriter('output_youtube.avi', fourcc_, 5, (299, 299))
 
-# cap.set(cv2.CAP_PROP_FPS, 5)
-# fps = int(cap.get(5))
-# print("fps:", fps)
 count = 0
 pred = ''
 
@@ -31,17 +27,14 @@ while(cap.isOpened()):
     if not ret:
         break
 
-    #figure out which roi to use depending if needs rotated
-    #if needs rotated:
+    #if image needs rotated uncomment below 
     '''
     gray = cv2.rotate(frame, cv2.cv2.ROTATE_90_CLOCKWISE)
     roi = cv2.resize(gray, (299, 299))/255
     '''
 
-    #if does not need rotated(youtube video)
-    
+    #if image does not need rotated use line below
     roi = cv2.resize(frame, (299,299))/255
-    
 
     pred = classes[np.argmax(model.predict(roi.reshape(-1, 299, 299, 3)), axis = 1)][0]
 
@@ -65,5 +58,3 @@ while(cap.isOpened()):
 cap.release()
 out.release()
 cv2.destroyAllWindows()
-
-
