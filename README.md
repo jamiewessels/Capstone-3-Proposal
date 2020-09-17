@@ -27,6 +27,13 @@ The figure below shows the Xception architechture.  Colors indicate that the wei
 
 
 ### Tuning Process
+Layer weights were sequentially unfrozen and the learning rate and/or optimizer was during the training process. Early stopping was used to monitor validation loss during each training iteration.
+
+First Tuning Process: 3 Chord Classifier
+1. Outer layer only: SGD(lr = 0.2), large learning rate to quickly converge outer weights, 10 epochs
+1. Last separable convolution layer (layer 126 and above): SGD(SGD(lr=0.01, momentum = 0.9, decay = 0.001))
+1. 
+
 [should I mention how I went from 3 chords to 5 chords? ]
 
 1. Outer layer tuned first 
