@@ -14,7 +14,7 @@ def preprocess_img(img_filepath):
     return array_img
 
 
-def predict_img(model_filepath, img_filepath, classes = np.array(['Am', 'C', 'Dm', 'F', 'G'])):
+def predict_img(model_filepath, img_filepath, save_name, classes = np.array(['Am', 'C', 'Dm', 'F', 'G'])):
     model = load_model(model_filepath)
     arr = preprocess_img(img_filepath)/255
     # processed = preprocess_input(arr)
@@ -30,12 +30,14 @@ def predict_img(model_filepath, img_filepath, classes = np.array(['Am', 'C', 'Dm
                    fc=(1., 0.8, 0.8),
                    )
          )
+    fig.savefig('images/predictions/' + save_name)
     fig.show()
 
     return pred
 
 if __name__ == '__main__':
     model_filepath = "CovNet_logs/Checkpoint5c-4.hdf5"
-    img_filepath = "src/trial.jpeg"
+    img_filepath = "images/google3.png"
+    save_name = 'googleimg4.png'
 
-    print(predict_img(model_filepath, img_filepath))
+    print(predict_img(model_filepath, img_filepath, save_name))
