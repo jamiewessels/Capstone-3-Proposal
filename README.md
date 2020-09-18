@@ -60,6 +60,11 @@ maybe a flow chart of what improvements made over time ]
 ### Model Limitations
 
 ### Model in Action
-![Demo_self_play1_sped_up](images//videos/video_predictions/4x_me.gif)
 
-![Demo_youtube_sped_up](images/videos/video_predictions/4x_youtube.gif)
+<p align="center">
+<img src="images/videos/video_predictions/4x_me.gif", width="400px" >
+</p
+
+<p align="center">
+<img src="images/videos/video_predictions/4x_youtube.gif", width="400px" >
+</p
