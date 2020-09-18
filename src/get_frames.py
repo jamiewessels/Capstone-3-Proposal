@@ -41,7 +41,8 @@ def get_video(model, in_file, out_file, rotation = False, **kwargs):
 
 if __name__ == '__main__':
     #note - when using this file, be very careful about color channels. Not all videos will automatically be compatible with model without changing color channel order. 
-
+    #to check if aligned - you can run stills through predict.py to compare 
+    
     model = load_model("CovNet_logs/Checkpoint5c-retrain.hdf5") #model to load
     classes = np.array(['Am', 'C', 'Dm', 'F', 'G']) #do not change
 
