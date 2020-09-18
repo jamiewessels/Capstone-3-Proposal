@@ -39,7 +39,9 @@ First Tuning Process: 3 Chord Classifier
 1. Block 12: Adam(lr=0.001, beta_1 = 0.9, beta_2 = 0.999)
 1. Block 11: Adam(lr=0.0001, beta_1 = 0.9, beta_2 = 0.999)
 1. Block 10: Adam(lr=0.00001, beta_1 = 0.9, beta_2 = 0.999)
+
 *changed to a 5-chord model*
+
 1. Outer layer - 5 class, softmax: SGD(lr = 0.2), 10 epochs 
 1. Block 14: Adam(lr=0.0001, beta_1 = 0.9, beta_2 = 0.999)
 1. Block 13: Adam(lr=0.0001, beta_1 = 0.9, beta_2 = 0.999)
