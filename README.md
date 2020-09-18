@@ -2,13 +2,13 @@
 
 
 #### Goal: 
-The goal of this project is to create a piano chord classifier based on images.  
+The goal of this project was to create a piano chord classifier based on images of hands playing the piano.  
 
 #### Background: 
 Deep learning has been used to classify chords based on audio input, but there aren't many chord identifiers based on images! A chord image classifier could have many use cases such as helping hearing impaired musicians or supporting virtual learning, and could be a precursor to musical transcription based on a video input. 
 
 #### Collecting the Data
-With a "little help from my friends", I generated and self-labeled images of five chords: C, F, Am, Dm, and G.  The images came from 12 people and 8 unique pianos, included both left and right hands and multiple fingerings.  There were approximately XX images generated per person. 
+With a "little help from my friends", I generated and self-labeled images of five chords: C, F, Am, Dm, and G.  The images came from 12 people and 8 unique pianos, included both left and right hands and multiple fingerings.  There were approximately 15 images generated per person, per class. An assortment of the images is shown below.
 
 <p align="center">
 <img src="images/brady_bunch_hands.png" width="600px" >
@@ -29,7 +29,7 @@ Xception Model Structure:
 
 
 ### Tuning Process
-Layer weights were sequentially unfrozen and the learning rate and/or optimizer was during the training process. Early stopping was used to monitor validation loss during each training iteration. The loss function was set to sparse categorical cross-entropy. The model started as a 3-chord classifier, but was later changed to a 5-chord classifier after promising results.  When switching to the 5-chord classifier, the weights from the best 3-chord classifier were used. 
+During the training process, layers were sequentially unfrozen and the learning rate and/or optimizer was adjusted. Early stopping was used to monitor validation loss during each training iteration, and the loss function was set to sparse categorical cross-entropy. The model started as a 3-chord classifier, but was later changed to a 5-chord classifier after promising results.  When switching to the 5-chord classifier, the weights from the best 3-chord classifier were used. 
 
 First Tuning Process: 3 Chord Classifier
 1. Outer layer - 3 class, softmax: SGD(lr = 0.2), 10 epochs
@@ -46,14 +46,14 @@ First Tuning Process: 3 Chord Classifier
 1. Block 12: Adam(lr=0.00001, beta_1 = 0.9, beta_2 = 0.999)
 1. Block 10+: Adam(lr=0.00001, beta_1 = 0.9, beta_2 = 0.999)
 
-I chose to monitor validation accuracy, as I cared most about my model correctly classifying the chords. The graph below outlines the validation accuracy with each training iteration. We see the biggest jump in accuracy during the 3rd iteration, after unfreezing block 13 (layers 116+). The model ended with a validation accuracy of 98.3%. 
+I chose to monitor validation accuracy, as I cared most about my model being able to correctly classify the chords. The graph below outlines the validation accuracy with each training iteration. We see the biggest jump in accuracy during the 3rd iteration, after unfreezing block 13 (layers 116+). The model ended with a validation accuracy of 98.3%. 
 
 <p align="center">
 <img src="images/model_progress.jpeg" width="600px" >
 </p>
 
 ### Model Performance
-The figure below shows a normalized confusion matrix for the 5 chord classes. Of the test images, the model was able to correctly label all true F and G chords.  The model had the lowest recall for chord Dm (95%); the model  incorrectly labeled 5% of the true Dm chords as Am.    it incorrectly labeled the chord Am 5% of the time.  
+The figure below shows a normalized confusion matrix for the 5 chord classes. Of the test images, the model was able to correctly label all true F and G chords.  The model had the lowest recall for chord Dm (at 95%); the model incorrectly labeled 5% of the true Dm chords as Am.
 
 
 <p align="center">
@@ -62,6 +62,7 @@ The figure below shows a normalized confusion matrix for the 5 chord classes. Of
 
 
 ### Model in Action
+I used OpenCV to predict chords based on video frames. The three gifs below show these prediction outputs (at 4x the original speed), and the original output videos can be found in the images/videos/predictions folder. It should be noted that there is still a lot more work to be done with the video classifier, specifically with required pre-processing; for certain videos there seemed to be a discrepancy between the input color channels and the received color channels, which affected my model's capability.  To ensure that a video was compatible with the model, I ran still frames through my predict.py file and compared them to the video predictor's output.  
 
 **Clip of me!**
 The model correctly labels each chord.  The model's prediction fluctuates when keys are not being pressed. 
@@ -85,5 +86,12 @@ The model performs well on this youtube clip.
 </p
 
 ### Predictions
+One concern I had was that my model had only seen a small number of hands and pianos, and of those hands, the majority were white. Therefore, it was important to me that I could test my model on additional images I could find online. This task was actually very difficult; surprisingly, many pictures of piano chords don't actually have hands in them! Additionally, the ones that do have hands in them are not always playing a triad (1-3-5 chords), like I was identifying in my model. I ran the following screenshots through my predict.py function and got the following results:
 
-### Model Limitations
+[figure out the best way to visualize my predictions]
+
+### Next Step
+Multi-label classification: after having completed this initial phase, I think 
+Diversify the dataset! 
+More chords
+Multi label classification - what keys are being depressed
