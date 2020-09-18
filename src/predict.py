@@ -5,19 +5,27 @@ from tensorflow.keras.applications.xception import preprocess_input
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.image import resize
+import PIL
 
-def preprocess_img(img):
+
+
+
+def preprocess_img(img_filepath, rot = -90):
     loaded = load_img(img_filepath)
-    array_img = img_to_array(loaded)
-    array_img = resize(array_img,[299,299])
-    array_img = img_to_array(array_img)
-    return array_img
+    if loaded.size[0]< loaded.size[1]:
+        loaded = loaded.rotate(rot)
+        img = loaded.resize((299,299))
+    else:
+        img = loaded.resize((299,299))
+    img = img_to_array(img)/255
+    # img = preprocess_input(img).astype('float32')
+    return img
 
 
 def predict_img(img_filepath, model_filepath, save_name=None, classes = np.array(['Am', 'C', 'Dm', 'F', 'G'])):
     model = load_model(model_filepath)
-    arr = preprocess_img(img_filepath)/255
-    # processed = preprocess_input(arr)
+    arr = preprocess_img(img_filepath)
+
     pred = classes[np.argmax(model.predict(arr.reshape(-1, 299, 299, 3)), axis = 1)][0]
     
     fig = plt.gcf()
@@ -36,8 +44,8 @@ def predict_img(img_filepath, model_filepath, save_name=None, classes = np.array
     return pred
 
 if __name__ == '__main__':
-    model_filepath = "CovNet_logs/best_model_5chords.hdf5"
-    img_filepath = "images/to_predict/google1.png"
-    save_name = 'googleimg4.png'
+    model_filepath = "CovNet_logs/best_model_5chords_.hdf5"
+    img_filepath = "images/to_predict/google5.png"
+    save_name = 'googleimg5.png'
 
     predict_img(img_filepath,model_filepath,  save_name)

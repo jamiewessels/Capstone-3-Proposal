@@ -146,7 +146,7 @@ if __name__ == '__main__':
         '''
 
         #Load and Score Best Model
-        best_model = load_model('./CovNet_logs/best_model_5chords.hdf5')
+        best_model = load_model('./CovNet_logs/best_model_5chords_.hdf5')
 
         metrics = score_model(best_model, validation_generator, num_val)
         cm = get_confusion_matrix(best_model, validation_generator)
