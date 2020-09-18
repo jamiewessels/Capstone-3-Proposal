@@ -57,15 +57,25 @@ maybe a flow chart of what improvements made over time ]
 <img src="images/conf_matrix_5chords_chkpt4.png" width="600px" >
 </p>
 
-### Model Limitations
 
 ### Model in Action
 
+Clip of me! 
 <p align="center">
-<img src="images/videos/video_predictions/4x_me.gif", width="400px" >
+<img src="images/videos/video_predictions/4x_self_1.gif", width="400px" >
+</p
+
+Another clip of me! 
+<p align="center">
+<img src="images/videos/video_predictions/4x_self_2.gif", width="400px" >
 </p
 
 
+Clip of youtuber!
 <p align="center">
 <img src="images/videos/video_predictions/4x_youtube.gif", width="400px" >
 </p
+
+### Predictions
+
+### Model Limitations
