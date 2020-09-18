@@ -65,6 +65,7 @@ maybe a flow chart of what improvements made over time ]
 <img src="images/videos/video_predictions/4x_me.gif", width="400px" >
 </p
 
+
 <p align="center">
 <img src="images/videos/video_predictions/4x_youtube.gif", width="400px" >
 </p
