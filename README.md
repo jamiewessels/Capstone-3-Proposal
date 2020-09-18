@@ -5,10 +5,10 @@
 The goal of this project is to create a piano chord classifier based on images.  
 
 #### Background: 
-Deep learning has been used to classify chords based on audio input, but there aren't many chord identifiers based on images. A chord image classifier could have many use cases such as helping hearing impaired musicians, supporting virtual learning, video transcription, and cuing theatrical changes for large productions. There is also an opportunity to build an ensemble model, combining the audio and image classifiers. 
+Deep learning has been used to classify chords based on audio input, but there aren't many chord identifiers based on images! A chord image classifier could have many use cases such as helping hearing impaired musicians or supporting virtual learning, and could be a precursor to musical transcription based on a video input. 
 
 #### Collecting the Data
-With a "little help from my friends", I generated and self-labeled images of five chords: C, F, Am, Dm, and G.  The images came from 12 ppl and 8 unique pianos, included both left and right hands and multiple fingerings.  There were approximately XX images generated per person. 
+With a "little help from my friends", I generated and self-labeled images of five chords: C, F, Am, Dm, and G.  The images came from 12 people and 8 unique pianos, included both left and right hands and multiple fingerings.  There were approximately XX images generated per person. 
 
 <p align="center">
 <img src="images/brady_bunch_hands.png" width="600px" >
@@ -17,9 +17,11 @@ With a "little help from my friends", I generated and self-labeled images of fiv
 I randomly split the raw images into training and validation sets, and then performed augmentation on the training set using the kera's ImageDataGenerator.  This created 20 additional images per raw training image, by randomly performing the following transformations: rotation, shearing, dilation, and translations.
 
 ### About the Model
-I chose to use the Xception architecture, initialized to the ImageNet weights (add link to paper, keras.applications). This allowed me to leverage prior learning for a similar task, and accommodate my smaller sample size. The only changes made to the original architechture was the output layer, which was replaced by a 5-neuron softmax output.
+I chose to use the Xception architecture, initialized to the ImageNet weights (add link to paper, keras.applications). This allowed me to leverage prior learning to accommodate a smaller sample size. The only change made to the original Xception architecture was the output layer, which was set to a 5-neuron softmax output.
 
-The figure below shows the Xception architechture.  Colors indicate that the weights were adjusted from the original ImageNet weights. The tuning process is outlined in the section below.  The final model and associated weights is saved as model.hdf5 (don't forget to rename it to this lolz).
+The figure below shows a baic Xception structure.  Colors indicate that the weights were adjusted from the original ImageNet weights. The final model and associated weights is saved as model.hdf5 (don't forget to rename it to this lolz).
+
+Xception Model Structure:
 
 <p align="center">
 <img src="images/Xception_model.png" width="600px" >
