@@ -135,7 +135,7 @@ if __name__ == '__main__':
         
         #Transfer Model was Created from Best Weights with 3 Chord Classifier
         '''
-        weights = load_model('./CovNet_logs/Checkpoint5c-5.hdf5').get_weights()[:-2]
+        weights = load_model('./CovNet_logs/best_model_3chords').get_weights()[:-2]
         base_model = Xception(weights= 'imagenet',
                         include_top=False,
                         input_shape=(299,299,3))
