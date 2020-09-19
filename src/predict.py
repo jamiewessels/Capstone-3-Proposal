@@ -2,12 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.xception import preprocess_input
-from tensorflow.keras.preprocessing.image import load_img
-from tensorflow.keras.preprocessing.image import img_to_array
-from tensorflow.image import resize
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import PIL
-
-
 
 
 def preprocess_img(img_filepath, rot = -90):
@@ -18,7 +14,7 @@ def preprocess_img(img_filepath, rot = -90):
     else:
         img = loaded.resize((299,299))
     img = img_to_array(img)/255
-    # img = preprocess_input(img).astype('float32')
+
     return img
 
 
@@ -45,7 +41,7 @@ def predict_img(img_filepath, model_filepath, save_name=None, classes = np.array
 
 if __name__ == '__main__':
     model_filepath = "CovNet_logs/best_model_5chords_.hdf5"
-    img_filepath = "images/to_predict/google5.png"
-    save_name = 'googleimg5.png'
+    img_filepath = "images/to_predict/google6.png"
+    save_name = 'google6.png'
 
     predict_img(img_filepath,model_filepath,  save_name)

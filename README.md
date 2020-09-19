@@ -14,14 +14,14 @@ With a "little help from my friends", I generated and self-labeled images of fiv
 <img src="images/brady_bunch_hands.png" width="600px" >
 </p>
 
-I randomly split the raw images into training and validation sets, and then performed augmentation on the training set using the kera's ImageDataGenerator.  This created 20 additional images per raw training image, by randomly performing the following transformations: rotation, shearing, dilation, and translations.
+I randomly split the raw images into training and validation sets, and then performed augmentation on the training set using keras' ImageDataGenerator.  This created 20 additional images per raw training image, by randomly performing the following transformations: rotation, shearing, dilation, and translations.
 
 ### About the Model
 I chose to use the Xception architecture, initialized to the ImageNet weights (add link to paper, keras.applications). This allowed me to leverage prior learning to accommodate a smaller sample size. The only change made to the original Xception architecture was the output layer, which was set to a 5-neuron softmax output. 
 
-The figure below shows a baic Xception structure.  Colors indicate that the weights were adjusted from the original ImageNet weights. The final model and associated weights is saved as best_model_5chords.hdf5 within the CovNet_logs folder. 
+The figure below outlines Xception's structure.  Colors indicate that the weights were adjusted from the original ImageNet weights. The final model and associated weights is saved as best_model_5chords.hdf5 within the CovNet_logs folder. 
 
-Xception Model Structure:
+**Xception Model Structure:**
 
 <p align="center">
 <img src="images/Xception_model.png" width="600px" >
@@ -31,7 +31,7 @@ Xception Model Structure:
 ### Tuning Process
 During the training process, layers were sequentially unfrozen and the learning rate and/or optimizer was adjusted. Early stopping was used to monitor validation loss during each training iteration, and the loss function was set to sparse categorical cross-entropy. The model started as a 3-chord classifier, but was later changed to a 5-chord classifier after promising results.  When switching to the 5-chord classifier, the weights from the best 3-chord classifier were used. 
 
-First Tuning Process: 3 Chord Classifier
+*initial tuning: 3-chord classifier*
 1. Outer layer - 3 class, softmax: SGD(lr = 0.2), 10 epochs
 1. Block 14: SGD(lr=0.01, momentum = 0.9, decay = 0.001)
 1. Block 13: SGD(lr=0.01, momentum = 0.9, decay = 0.001)
@@ -40,7 +40,7 @@ First Tuning Process: 3 Chord Classifier
 1. Block 11: Adam(lr=0.0001, beta_1 = 0.9, beta_2 = 0.999)
 1. Block 10: Adam(lr=0.00001, beta_1 = 0.9, beta_2 = 0.999)
 
-*changed to a 5-chord model*
+*changed to a 5-chord classifier*
 
 1. Outer layer - 5 class, softmax: SGD(lr = 0.2), 10 epochs 
 1. Block 14: Adam(lr=0.0001, beta_1 = 0.9, beta_2 = 0.999)
@@ -64,7 +64,7 @@ The figure below shows a normalized confusion matrix for the 5 chord classes. Of
 
 
 ### Model in Action
-I used OpenCV to predict chords based on video frames. The three gifs below show these prediction outputs (at 4x the original speed), and the original output videos can be found in the images/videos/predictions folder. It should be noted that there is still a lot more work to be done with the video classifier, specifically with required pre-processing; for certain videos there seemed to be a discrepancy between the input color channels and the received color channels, which affected my model's capability.  To ensure that a video was compatible with the model, I ran still frames through my predict.py file and compared them to the video predictor's output.  
+I used OpenCV to predict chords based on video frames. The three gifs below show these prediction outputs (at 4x the original speed), and the original output videos can be found in the images/videos/predictions folder. It should be noted that there is still a lot more work to be done with the video classifier, specifically with pre-processing; for certain videos there seemed to be a discrepancy between the input color channels and the received color channels, which affected my model's capability.  To ensure that a video was compatible with the model, I ran still frames through my predict.py file and compared them to the video predictor's output.  
 
 **Clip of me!**
 The model correctly labels each chord.  The model's prediction fluctuates when keys are not being pressed. 
@@ -88,12 +88,19 @@ The model performs well on this youtube clip.
 </p
 
 ### Predictions
-One concern I had was that my model had only seen a small number of hands and pianos, and of those hands, the majority were white. Therefore, it was important to me that I could test my model on additional images I could find online. This task was actually very difficult; surprisingly, many pictures of piano chords don't actually have hands in them! Additionally, the ones that do have hands in them are not always playing a triad (1-3-5 chords), like I was identifying in my model. I ran the following screenshots through my predict.py function and got the following results:
+One concern I had was that my model had only seen a small number of hands and pianos, and of those hands, the majority were white. Therefore, it was important to me that I could test my model on additional images I could find online. This task was actually very difficult; surprisingly, many pictures of piano chords don't actually have hands in them! Additionally, the ones that do have hands in them are not always playing a triad (1-3-5 chords), like I was identifying in my model. The pictures below show un-seen hands, pulled from google and/or provided additional friends. Three of the images were incorrectly classified, indicating that there is more work to be done to diversify the training data!  
 
-[figure out the best way to visualize my predictions]
 
-### Next Step
-Multi-label classification: after having completed this initial phase, I think 
+<p align="center">
+<img src="images/additional_predicts.png" width="600px" >
+</p>
+
+### Moving Forward
+It is clear that we need a more robust dataset! However, these weights are a good starting point for a chord classifier. 
+
+**Multi-label Classification:** I think that a multi-label classifier that identifies which keys are being pressed would be able to compl.  This would provide more flexibility in what chords could be identified.
+
+
 Diversify the dataset! 
 More chords
 Multi label classification - what keys are being depressed
