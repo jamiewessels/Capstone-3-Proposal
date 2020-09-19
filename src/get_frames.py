@@ -40,10 +40,10 @@ def get_video(model, in_file, out_file, rotation = False, **kwargs):
     
 
 if __name__ == '__main__':
-    #note - when using this file, be very careful about color channels. Not all videos will automatically be compatible with model without changing color channel order. 
+    #note - when using this file, be very careful about input dimensions and distortion during resize.
     #to check if aligned - you can run stills through predict.py to compare 
     
-    model = load_model("CovNet_logs/Checkpoint5c-retrain.hdf5") #model to load
+    model = load_model("CovNet_logs/best_model_5chords.hdf5") #model to load
     classes = np.array(['Am', 'C', 'Dm', 'F', 'G']) #do not change
 
     #vars for writing on video frames
@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
     fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
 
-    #function call!
+    #function call
     get_video(model, in_file, out_file, rotation = True, font = font,
                 org = org, fontScale = fontScale, color = color, 
                 thickness = thickness)
