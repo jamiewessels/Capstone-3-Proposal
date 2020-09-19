@@ -6,27 +6,31 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import PIL
 
 
-def preprocess_img(img_filepath, rot = -90):
+def preprocess_img(img_filepath, rot, crop):
     loaded = load_img(img_filepath)
-    if loaded.size[0]< loaded.size[1]:
+    #if crop, crop to square first so image not too distorted from reality
+    if crop:
         loaded = loaded.rotate(rot)
-        img = loaded.resize((299,299))
+        w, h = loaded.size
+        img = loaded.crop((w//4, w//4, 3*w//4, 3*w//4))
+        img = img.resize((299,299))
     else:
         img = loaded.resize((299,299))
-    img = img_to_array(img)/255
+    arr = img_to_array(img)
+    img_for_pic = arr/255 #color scaling for picture of img
+    img_for_model = preprocess_input(arr) #color scaling for model
+    return img_for_pic, img_for_model
 
-    return img
 
-
-def predict_img(img_filepath, model_filepath, save_name=None, classes = np.array(['Am', 'C', 'Dm', 'F', 'G'])):
+def predict_img(img_filepath, model_filepath, save_name=None,rot = -90, crop = False, classes = np.array(['Am', 'C', 'Dm', 'F', 'G'])):
     model = load_model(model_filepath)
-    arr = preprocess_img(img_filepath)
+    img_for_pic, img_for_model = preprocess_img(img_filepath, rot, crop)
 
-    pred = classes[np.argmax(model.predict(arr.reshape(-1, 299, 299, 3)), axis = 1)][0]
+    pred= classes[np.argmax(model.predict(img_for_model.reshape(-1, 299, 299, 3)), axis = 1)][0]
     
     fig = plt.gcf()
     fig, ax = plt.subplots()
-    ax.imshow(arr)
+    ax.imshow(img_for_pic)
     ax.text(0.6, 0.7, f'{pred}', size=30, rotation='horizontal',
          ha="center", va="center",
          bbox=dict(boxstyle="square",
@@ -34,14 +38,14 @@ def predict_img(img_filepath, model_filepath, save_name=None, classes = np.array
                    fc=(1, 1, 1)
                    )
          )
-    fig.savefig('images/predictions/' + save_name)
+    # fig.savefig('images/predictions/' + save_name)
     fig.show()
     
     return pred
 
 if __name__ == '__main__':
-    model_filepath = "CovNet_logs/best_model_5chords_.hdf5"
+    model_filepath = "CovNet_logs/best_model_5chords.hdf5"
     img_filepath = "images/to_predict/google6.png"
     save_name = 'google6.png'
 
-    predict_img(img_filepath,model_filepath,  save_name)
+    predict_img(img_filepath,model_filepath,  save_name, rot = 0, crop = False)
