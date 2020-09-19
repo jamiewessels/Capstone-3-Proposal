@@ -9,11 +9,14 @@ import PIL
 def preprocess_img(img_filepath, rot, crop):
     loaded = load_img(img_filepath)
     #if crop, crop to square first so image not too distorted from reality
-    if crop:
+    if crop and rot:
         loaded = loaded.rotate(rot)
         w, h = loaded.size
         img = loaded.crop((w//4, w//4, 3*w//4, 3*w//4))
         img = img.resize((299,299))
+    elif rot: 
+        loaded = loaded.rotate(rot)
+        img = loaded.resize((299,299))
     else:
         img = loaded.resize((299,299))
     arr = img_to_array(img)
@@ -45,7 +48,7 @@ def predict_img(img_filepath, model_filepath, save_name=None,rot = -90, crop = F
 
 if __name__ == '__main__':
     model_filepath = "CovNet_logs/best_model_5chords.hdf5"
-    img_filepath = "images/to_predict/google6.png"
+    img_filepath = "images/to_predict/F/rachel1.jpg"
     save_name = 'google6.png'
 
-    predict_img(img_filepath,model_filepath,  save_name, rot = 0, crop = False)
+    predict_img(img_filepath,model_filepath,  save_name, rot = 90, crop = False)
