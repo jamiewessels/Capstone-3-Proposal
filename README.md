@@ -88,19 +88,16 @@ The model performs well on this youtube clip.
 </p
 
 ### Predictions
-One concern I had was that my model had only seen a small number of hands and pianos, and of those hands, the majority were white. Therefore, it was important to me that I could test my model on additional images I could find online. This task was actually very difficult; surprisingly, many pictures of piano chords don't actually have hands in them! Additionally, the ones that do have hands in them are not always playing a triad (1-3-5 chords), like I was identifying in my model. The pictures below show un-seen hands, pulled from google and/or provided additional friends. Three of the images were incorrectly classified, indicating that there is more work to be done to diversify the training data!  
+One concern I had was that my model had only seen a small number of hands and pianos, and of those hands, the majority were white. Therefore, it was important to me that I could test my model on additional images I could find online. This task was actually very difficult; surprisingly, many pictures of piano chords don't actually have hands in them! Additionally, the ones that do have hands in them are not always playing a triad (1-3-5 chords), like I was identifying in my model. The pictures below show un-seen hands, pulled from google and/or provided by additional friends. Of these fifteen pictures, three were incorrectly classified, indicating that there is a lot more work to be done to diversify the training data!   
 
 
 <p align="center">
-<img src="images/additional_predicts.png" width="600px" >
+<img src="images/additional_predictions.png" width="600px" >
 </p>
 
 ### Moving Forward
-It is clear that we need a more robust dataset! However, these weights are a good starting point for a chord classifier. 
 
-**Multi-label Classification:** I think that a multi-label classifier that identifies which keys are being pressed would be able to compl.  This would provide more flexibility in what chords could be identified.
+**Diversify and Expand the Dataset**
+It is clear that we need a more robust dataset in order to get a better idea of the model's performance.  However, these weights are a good starting point for a chord classifier.
 
-
-Diversify the dataset! 
-More chords
-Multi label classification - what keys are being depressed
+**Multi-label Classification:** I think that a multi-label classifier that identifies which keys are being pressed would be more interesting than a chord classifier. The reason it was so hard to find pictures of these simple chords is that most people don't play them! Instead, musicians invert chords, add notes, and play with two hands. Creating a multi-label classifier would better align with what musicians actually play, and would be a better pre-cursor to transcription from a video.
