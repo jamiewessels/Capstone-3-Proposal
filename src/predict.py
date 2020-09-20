@@ -34,21 +34,21 @@ def predict_img(img_filepath, model_filepath, save_name=None,rot = -90, crop = F
     fig = plt.gcf()
     fig, ax = plt.subplots()
     ax.imshow(img_for_pic)
-    ax.text(0.6, 0.7, f'{pred}', size=30, rotation='horizontal',
+    ax.text(50,50, f'{pred}', size=30, rotation='horizontal',
          ha="center", va="center",
          bbox=dict(boxstyle="square",
                    ec=(0., 0.5, 0.5),
                    fc=(1, 1, 1)
                    )
          )
-    # fig.savefig('images/predictions/' + save_name)
+    fig.savefig('images/predictions/' + save_name)
     fig.show()
     
     return pred
 
 if __name__ == '__main__':
     model_filepath = "CovNet_logs/best_model_5chords.hdf5"
-    img_filepath = "images/to_predict/F/rachel1.jpg"
-    save_name = 'google6.png'
+    img_filepath = "images/to_predict/Am/google2.png"
+    save_name = 'google2.png'
 
-    predict_img(img_filepath,model_filepath,  save_name, rot = 90, crop = False)
+    predict_img(img_filepath,model_filepath,  save_name, rot = 0, crop = False)

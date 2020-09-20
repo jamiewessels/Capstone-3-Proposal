@@ -111,20 +111,20 @@ if __name__ == '__main__':
                 'data_5chords/train/',
                 target_size=target_size,
                 batch_size=batch_size,
-                class_mode='sparse')
+                class_mode='categorical')
 
         validation_generator = valid_datagen.flow_from_directory(
                 'data_5chords/val',
                 target_size=target_size,
                 batch_size=batch_size,
-                class_mode='sparse', 
+                class_mode='categorical', 
                 shuffle = False)
 
         test_generator = test_datagen.flow_from_directory(
                 'data_5chords/test',
                 target_size=target_size,
                 batch_size=batch_size,
-                class_mode='sparse', 
+                class_mode='categorical', 
                 shuffle = False)
 
         # instantiate callbacks
@@ -145,8 +145,9 @@ if __name__ == '__main__':
         transfer_model = create_transfer_model(base_model, n_categories=5)
         '''
 
+
         #Load and Score Best Model
-        best_model = load_model('./CovNet_logs/best_model_5chords_.hdf5')
+        best_model = load_model('./CovNet_logs/best_model_5chords.hdf5')
 
         metrics = score_model(best_model, validation_generator, num_val)
         cm = get_confusion_matrix(best_model, validation_generator)
