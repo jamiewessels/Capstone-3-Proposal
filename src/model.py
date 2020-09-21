@@ -51,8 +51,8 @@ def print_model_properties(model, indices = 0):
                 Returns:
                         print statement of each layer's name and whether layer is trainable
         '''    
-     for i, layer in enumerate(model.layers[indices:]):
-        print("Layer {} | Name: {} | Trainable: {}".format(i+indices, layer.name, layer.trainable))
+        for i, layer in enumerate(model.layers[indices:]):
+                print("Layer {} | Name: {} | Trainable: {}".format(i+indices, layer.name, layer.trainable))
 
 def change_trainable_layers(model, trainable_index):
         '''
@@ -64,10 +64,10 @@ def change_trainable_layers(model, trainable_index):
                 Returns:
                         model 
         '''    
-    for layer in model.layers[:trainable_index]:
-        layer.trainable = False
-    for layer in model.layers[trainable_index:]:
-        layer.trainable = True
+        for layer in model.layers[:trainable_index]:
+                layer.trainable = False
+        for layer in model.layers[trainable_index:]:
+                layer.trainable = True
 
 def get_tboard_logdir():
         '''
