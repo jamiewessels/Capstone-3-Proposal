@@ -7,6 +7,17 @@ import PIL
 
 
 def preprocess_img(img_filepath, rot, crop):
+        '''
+        Preprocesses single image for graphing and for model prediction
+
+                Parameters:
+                        img_filepath (str): filepath where image lives
+                        rot (int): rotation angle; use if image needs to be rotated (non-square)
+                        crop (bool): set to true if square crop necessary to prevent distortion upon resize
+                Returns:
+                        image_for_pic: image for plotting purposes(normal color scheme)
+                        image_for_model: image for model prediction (color scheme set by preprocessing function)
+        '''    
     loaded = load_img(img_filepath)
     #if crop, crop to square first so image not too distorted from reality
     if crop and rot:
@@ -26,6 +37,19 @@ def preprocess_img(img_filepath, rot, crop):
 
 
 def predict_img(img_filepath, model_filepath, save_name=None,rot = -90, crop = False, classes = np.array(['Am', 'C', 'Dm', 'F', 'G'])):
+    '''
+        Make model prediction and plot image.
+
+                Parameters:
+                        img_filepath (str): filepath where image lives
+                        model_filepath (str): filepath where model lives (.hdf5 file)
+                        save_name (str): name to save image +prediction
+                        rot (int): rotation angle; use if image needs to be rotated (non-square)
+                        crop (bool): set to true if square crop necessary to prevent distortion upon resize
+                        classes (list): class list; order is important, as it corresponds to model's .predict indices
+                Returns:
+                        plotted image with prediction class
+        '''    
     model = load_model(model_filepath)
     img_for_pic, img_for_model = preprocess_img(img_filepath, rot, crop)
 
@@ -41,14 +65,14 @@ def predict_img(img_filepath, model_filepath, save_name=None,rot = -90, crop = F
                    fc=(1, 1, 1)
                    )
          )
-    fig.savefig('images/predictions/' + save_name)
+    # fig.savefig('images/predictions/' + save_name)
     fig.show()
     
     return pred
 
 if __name__ == '__main__':
     model_filepath = "CovNet_logs/best_model_5chords.hdf5"
-    img_filepath = "images/to_predict/Am/google2.png"
-    save_name = 'google2.png'
+    img_filepath = "images/to_predict/C/rachel2.jpg"
+    save_name = 'rachel2.png'
 
     predict_img(img_filepath,model_filepath,  save_name, rot = 0, crop = False)

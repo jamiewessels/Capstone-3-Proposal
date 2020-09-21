@@ -4,6 +4,17 @@ from tensorflow.keras.models import load_model
 
 
 def get_video(model, in_file, out_file, rotation = False, **kwargs):
+    '''
+        Make predictions on video frames
+
+                Parameters:
+                        model: loaded model with loaded weights
+                        in_file (str): input video to analyze
+                        out_file (str): output video to be saved 
+                        rotation (int): rotation angle in degrees; use if video needs to be rotated 
+                Returns:
+                        displays and saves video with predictions on screen
+        '''    
     cap = cv2.VideoCapture(in_file)
     frameRate = cap.get(5) #frame rate
     out = cv2.VideoWriter(out_file, fourcc, 5, (299, 299))
@@ -40,8 +51,6 @@ def get_video(model, in_file, out_file, rotation = False, **kwargs):
     
 
 if __name__ == '__main__':
-    #note - when using this file, be very careful about input dimensions and distortion during resize.
-    #to check if aligned - you can run stills through predict.py to compare 
     
     model = load_model("CovNet_logs/best_model_5chords.hdf5") #model to load
     classes = np.array(['Am', 'C', 'Dm', 'F', 'G']) #do not change
@@ -53,12 +62,12 @@ if __name__ == '__main__':
     color = (1, 1, 0) 
     thickness = 7
 
-    in_file = 'images/videos_to_predict/vertical.mov'
-    out_file = 'images/videos/video_predictions/self_vid_2.avi'
+    in_file = 'images/videos/videos_to_predict/youtube_cropped.mp4'
+    out_file = 'images/videos/video_predictions/choose_output_name.avi' #choose output name
 
     fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
 
     #function call
-    get_video(model, in_file, out_file, rotation = True, font = font,
+    get_video(model, in_file, out_file, rotation = False, font = font,
                 org = org, fontScale = fontScale, color = color, 
                 thickness = thickness)

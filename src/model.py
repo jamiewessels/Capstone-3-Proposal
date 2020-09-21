@@ -26,30 +26,69 @@ test_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
 
 
 def create_transfer_model(base_model, n_categories=5):
-        
-        # add new head
-        avg = GlobalAveragePooling2D()(base_model.output)
+        '''
+        Takes in a base model and returns model with softmax output with n_categories neurons 
+
+                Parameters:
+                        base_model with loaded weights
+                        n_categories (int): number of output neurons
+                Returns:
+                        model
+        '''    
+        avg = GlobalAveragePooling2D()(base_model.output) 
         output = Dense(n_categories, activation='softmax')(avg)
         model = Model(inputs=base_model.input, outputs=output)
         
         return model
 
 def print_model_properties(model, indices = 0):
+        '''
+        Takes in a model and prints each layer's name and whether layer is trainable 
+
+                Parameters:
+                        loaded model
+                        indices (int): starting layer index
+                Returns:
+                        print statement of each layer's name and whether layer is trainable
+        '''    
      for i, layer in enumerate(model.layers[indices:]):
         print("Layer {} | Name: {} | Trainable: {}".format(i+indices, layer.name, layer.trainable))
 
 def change_trainable_layers(model, trainable_index):
+        '''
+        Changes layers to trainable (unfreeze)
+
+                Parameters:
+                        loaded model
+                        trainable_index(int): index at and above which layers will be trainable (unfrozen)
+                Returns:
+                        model 
+        '''    
     for layer in model.layers[:trainable_index]:
         layer.trainable = False
     for layer in model.layers[trainable_index:]:
         layer.trainable = True
 
 def get_tboard_logdir():
+        '''
+        Returns:
+                name for tensorboard log
+        '''    
         import time
         run_id = time.strftime("run_%Y_%m_%d-%H_%M")
         return os.path.join(root_dir, run_id)
 
 def score_model(model, test_generator, num_test):
+        '''
+        Scores model. Assumes batch size of 32
+
+                Parameters:
+                        model: loaded model with loaded weights
+                        test_generator: preprocessed test image generator
+                        num_test (int): number of images in test_generator
+                Returns:
+                        dictionary with scoring metrics
+        '''    
         results_dict = model.evaluate(test_generator, steps = num_test//32, return_dict = True)
         ytrue = test_generator.classes
         probas = model.predict(test_generator)
@@ -59,12 +98,33 @@ def score_model(model, test_generator, num_test):
         return results_dict
 
 def get_confusion_matrix(model, test_generator):
+        '''
+        Creates confusion matrix for test samples.
+
+                Parameters:
+                        model: loaded model with loaded weights
+                        test_generator: preprocessed test image generator
+                Returns:
+                        confusion matrix
+        '''    
+
         return confusion_matrix(test_generator.classes, np.argmax(model.predict(test_generator), axis = 1))
 
 def plot_confusion_matrix(cm, classes,
                           normalize=False,
                           title='Confusion matrix',
                           cmap=plt.cm.Blues):
+        '''
+        Plots confusion matrix. 
+
+                Parameters:
+                        cm: confusion matrix from get_confusion_matrix function
+                        classes (list): labels for classes
+                        normalize (bool): if True, entries will be percentages instead of counts
+                        title (str): title for confusion matrix 
+                Returns:
+                        plotted confusion matrix
+        '''    
 
         import itertools
         if normalize:
@@ -106,7 +166,7 @@ if __name__ == '__main__':
         steps_per_epoch = num_train // batch_size
         validation_steps = num_val // batch_size
 
-        # make flow objects
+        # make flow from directory objects
         train_generator = train_datagen.flow_from_directory(
                 'data_5chords/train/',
                 target_size=target_size,
@@ -145,8 +205,6 @@ if __name__ == '__main__':
         transfer_model = create_transfer_model(base_model, n_categories=5)
         '''
 
-
-        #Load and Score Best Model
         best_model = load_model('./CovNet_logs/best_model_5chords.hdf5')
 
         metrics = score_model(best_model, validation_generator, num_val)

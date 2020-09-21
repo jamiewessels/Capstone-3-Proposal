@@ -2,6 +2,8 @@ from tensorflow import keras
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 import os
 
+#Only use this file on training images! 
+
 datagen = ImageDataGenerator(
         rotation_range=20,
         width_shift_range=0.1,
